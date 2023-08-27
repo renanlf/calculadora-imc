@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estimativas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="p-5">
+    <div class="mb-3">
+        <label for="aj" class="form-label">AJ</label>
+        <input type="number" name="aj" id="aj" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label for="cb" class="form-label">CB</label>
+        <input type="number" name="cb" id="cb" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label for="age" class="form-label">Idade</label>
+        <input type="number" name="age" id="age" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label for="aj" class="form-label">Gênero</label>
+        <select name="color" id="gender" class="form-control">
+            <option value="homem">Homem</option>
+            <option value="mulher">Mulher</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="color">Cor</label>
+        <select name="color" id="color" class="form-control">
+            <option value="branco">Branco</option>
+            <option value="negro">Negro</option>
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <button class="btn btn-primary" id="calcular">Calcular</button>
+    </div>
+
+    <div class="mb-3">
+        Altura estimada: <span id="altura"></span>
+    </br>
+        Peso estimado: <span id="peso"></span>
+    </br>
+        IMC: <span id="imc"></span>
+    </div>
+</div>
+
+
+
+</body>
+<script>
+    let btn = document.getElementById('calcular');
+    btn.addEventListener('click', () => {
+        aj = parseFloat(document.getElementById('aj').value)
+        cb = parseFloat(document.getElementById('cb').value)
+        age = parseFloat(document.getElementById('age').value)
+
+        gender = document.getElementById('gender').value
+        color = document.getElementById('color').value
+
+        altura = (64.19 - (0.04 * age) + (2.02 * aj)) / 100
+
+        if(gender === 'mulher') {
+            altura = (84.88 - (0.24 * age) + (1.83 * aj)) / 100
+        }
+
+        let peso = 0;
+        // adultos
+        if(gender === 'homem' && color === 'branco' && age <= 60) {
+            peso = (aj * 1.19) + (cb * 3.21) - 86.82
+        }
+
+        if(gender === 'homem' && color === 'negro' && age <= 60) {
+            peso = (aj * 1.09) + (cb * 3.14) - 83.72
+        }
+
+        if(gender === 'mulher' && color === 'branco' && age <= 60) {
+            peso = (aj * 1.01) + (cb * 2.81) - 60.04
+        }
+
+        if(gender === 'mulher' && color === 'negro' && age <= 60) {
+            peso = (aj * 1.24) + (cb * 2.97) - 82.48
+        }
+
+        //------------------------------------------------------//
+        //idosos
+        if(gender === 'homem' && color === 'branco' && age > 60) {
+            peso = (aj * 1.10) + (cb * 3.07) - 75.81
+        }
+
+        if(gender === 'homem' && color === 'negro' && age > 60) {
+            peso = (aj * 0.44) + (cb * 2.86) - 39.21
+        }
+
+        if(gender === 'mulher' && color === 'branco' && age > 60) {
+            peso = (aj * 1.09) + (cb * 2.68) - 65.51
+        }
+
+        if(gender === 'mulher' && color === 'negro' && age > 60) {
+            peso = (aj * 1.50) + (cb * 2.58) - 84.22
+        }
+
+        imc = peso / (altura * altura)
+
+        document.getElementById('altura').innerText = altura.toFixed(2)
+        document.getElementById('peso').innerText = peso.toFixed(2)
+        document.getElementById('imc').innerText = imc.toFixed(1)
+    });
+</script>
+</html>
